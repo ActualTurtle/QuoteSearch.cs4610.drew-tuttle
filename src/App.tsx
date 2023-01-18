@@ -29,15 +29,29 @@ function App() {
   async function getQuotes(){
     if (author == "") return;
     
+    // const result = await fetch(`https://api.quotable.io/search/quotes?query=${author}&fields=author`);
+    // setQuotes([])
+    let newQuotes: Quote[] = []
+
+    for (let i = 0;  i < 10 ; i++){
+      newQuotes.push(await getQuote())
+    }
+    setQuotes(newQuotes)
+    
+  }
+
+  async function getQuote(){
     const result = await fetch("https://api.quotable.io/random");
     const data = await result.json();
+    console.log(await data);
     const quote: Quote = {
       id: ID_COUNT++,
       content: data.content,
       author: data.author
     } 
-    setQuotes([...quotes, quote])
+    return quote
   }
+
   return (
     <div className="App">
       <h1>Quote Search</h1>
@@ -46,9 +60,7 @@ function App() {
           Bees is {count}
         </button> */}
         <input type="text" value={author} onChange={e => setAuthor(e.target.value)}/>
-        <button onClick={getQuotes}>
-          GO
-        </button>
+        <button onClick={getQuotes}>GO</button>
       </div>
       <div>
         {
