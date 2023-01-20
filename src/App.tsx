@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
@@ -11,14 +11,22 @@ interface Quote {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [quotes, setQuotes] = useState<Quote[]>([])
-  const [author, setAuthor] = useState("")
+  const [count, setCount] = useState(0);
+  const [initialQuoteLoaded, setInitialQuoteLoaded] = useState(false);
+  const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [author, setAuthor] = useState("");
 
+  useEffect(() => {
+    if (quotes.length === 0 && !initialQuoteLoaded){
+        setInitialQuoteLoaded(true);
+        getSingleRandoQuote();
+    }
+  }, [quotes, initialQuoteLoaded])
 
   async function getQuotes(){
     if (author == "") return;
     
+    console.log(author)
     let newQuotes: Quote[] = []
 
     for (let i = 0;  i < 10 ; i++){
@@ -50,10 +58,6 @@ function App() {
       author: data.author
     } 
     setQuotes([quote])
-  }
-
-  if (quotes.length == 0){
-    getSingleRandoQuote()
   }
 
   return (
