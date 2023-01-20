@@ -2,16 +2,6 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-// async function GetQuote(){
-//   // const result = await fetch("https://api.quotable.io/random");
-//   // console.log(await result.json());
-//   let quote = "";
-//   // return await result.json();
-//   // console.log("TEST")
-//   return (
-//     <div>{quote}</div>
-//   );
-// }
 let ID_COUNT = 0;
 
 interface Quote {
@@ -29,8 +19,6 @@ function App() {
   async function getQuotes(){
     if (author == "") return;
     
-    // const result = await fetch(`https://api.quotable.io/search/quotes?query=${author}&fields=author`);
-    // setQuotes([])
     let newQuotes: Quote[] = []
 
     for (let i = 0;  i < 10 ; i++){
@@ -52,18 +40,32 @@ function App() {
     return quote
   }
 
+  async function getSingleRandoQuote(){
+    const result = await fetch("https://api.quotable.io/random");
+    const data = await result.json();
+    console.log(await data);
+    const quote: Quote = {
+      id: ID_COUNT++,
+      content: data.content,
+      author: data.author
+    } 
+    setQuotes([quote])
+  }
+
+  if (quotes.length == 0){
+    getSingleRandoQuote()
+  }
+
   return (
     <div className="App">
       <h1>Quote Search</h1>
       <div className="card">
-        {/* <button onClick={() => setCount((count) => count + 1)}>
-          Bees is {count}
-        </button> */}
         <input type="text" value={author} onChange={e => setAuthor(e.target.value)}/>
         <button onClick={getQuotes}>GO</button>
       </div>
       <div>
         {
+          
           quotes.map((quote) => (
             <div key={quote.id}>
               <p>"{quote.content}"</p>
