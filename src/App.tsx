@@ -59,15 +59,15 @@ function App() {
   return (
     <div className="App">
       <h1>Quote Search</h1>
-      <div className="card">
-        <input type="text" value={author} onChange={e => setAuthor(e.target.value)}/>
+      <div className="">
+        <input type="text" placeholder="Search by Author" value={author} onChange={e => setAuthor(e.target.value)}/>
         <button onClick={getQuotes}>GO</button>
       </div>
       <div>
         {
           
           quotes.map((quote) => (
-            <div key={quote.id}>
+            <div className='quote' key={quote.id}>
               <p>"{quote.content}"</p>
               <p>-{quote.author}</p>
             </div>
