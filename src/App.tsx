@@ -26,26 +26,22 @@ function App() {
   async function getQuotes(){
     if (author == "") return;
     
+    const result = await fetch(`https://usu-quotes-mimic.vercel.app/api/search?query=${author}`);
+    const data = await result.json();
+    const quote_list = await data.results;
+    console.log(await data);
     console.log(author)
     let newQuotes: Quote[] = []
 
     for (let i = 0;  i < 10 ; i++){
-      newQuotes.push(await getQuote())
+      const quote: Quote = {
+        id: ID_COUNT++,
+        content: quote_list[i].content,
+        author: quote_list[i].author
+      } 
+      newQuotes.push(quote)
     }
     setQuotes(newQuotes)
-    
-  }
-
-  async function getQuote(){
-    const result = await fetch("https://api.quotable.io/random");
-    const data = await result.json();
-    console.log(await data);
-    const quote: Quote = {
-      id: ID_COUNT++,
-      content: data.content,
-      author: data.author
-    } 
-    return quote
   }
 
   async function getSingleRandoQuote(){
