@@ -56,12 +56,19 @@ function App() {
     setQuotes([quote])
   }
 
+
   return (
     <div className="App">
       <h1>Quote Search</h1>
       <div className="">
-        <input type="text" placeholder="Search by Author" value={author} onChange={e => setAuthor(e.target.value)}/>
-        <button onClick={getQuotes}>GO</button>
+       <form onSubmit={(event) => {
+          event.preventDefault();
+          getQuotes();
+        }}>
+          <input type="text" placeholder="Search by Author" value={author} onChange={e => setAuthor(e.target.value)}/>
+          <button type='submit'>GO</button>
+     
+        </form>
       </div>
       <div>
         {
