@@ -2,4 +2,7 @@
 
 ## Quote Search
 
-Use wisely
+### Github pages link
+https://actualturtle.github.io/QuoteSearch.cs4610.drew-tuttle/
+
+
